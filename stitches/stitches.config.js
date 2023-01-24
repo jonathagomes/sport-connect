@@ -21,6 +21,11 @@ export const darkTheme = createTheme({
 });
 
 export const GlobalStyles = globalCss({
+  "*": {
+    margin: "0",
+    padding: "0",
+    boxSizing: "border-box",
+  },
   body: {
     background: "$background",
     color: "$text",
