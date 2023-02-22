@@ -11,6 +11,7 @@ import "@fontsource/roboto/700.css";
 import createEmotionCache from "src/utils/createEmotionCache";
 import lightThemeOptions from "src/styles/theme";
 import "src/styles/global.css";
+
 interface MyAppProps extends AppProps {
   emotionCache?: EmotionCache;
 }
