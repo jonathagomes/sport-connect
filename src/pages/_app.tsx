@@ -1,20 +1,36 @@
+import * as React from "react";
 import type { AppProps } from "next/app";
-import { ThemeProvider } from "next-themes";
-import { darkTheme, GlobalStyles } from "stitches/stitches.config";
+import { CacheProvider, EmotionCache } from "@emotion/react";
+import { ThemeProvider, CssBaseline, createTheme } from "@mui/material";
 
-export default function MyApp({ Component, pageProps }: AppProps) {
-  GlobalStyles();
+import "@fontsource/roboto/300.css";
+import "@fontsource/roboto/400.css";
+import "@fontsource/roboto/500.css";
+import "@fontsource/roboto/700.css";
+
+import createEmotionCache from "src/utils/createEmotionCache";
+import lightThemeOptions from "src/styles/theme";
+import "src/styles/global.css";
+
+interface MyAppProps extends AppProps {
+  emotionCache?: EmotionCache;
+}
+
+const clientSideEmotionCache = createEmotionCache();
+
+const lightTheme = createTheme(lightThemeOptions);
+
+const MyApp: React.FunctionComponent<MyAppProps> = (props) => {
+  const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
 
   return (
-    <ThemeProvider
-      attribute="class"
-      defaultTheme="system"
-      value={{
-        light: "light",
-        dark: darkTheme.className,
-      }}
-    >
-      <Component {...pageProps} />
-    </ThemeProvider>
+    <CacheProvider value={emotionCache}>
+      <ThemeProvider theme={lightTheme}>
+        <CssBaseline />
+        <Component {...pageProps} />
+      </ThemeProvider>
+    </CacheProvider>
   );
-}
+};
+
+export default MyApp;

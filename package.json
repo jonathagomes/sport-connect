@@ -10,12 +10,18 @@
     "generate": "plop --plopfile generators/plopfile.mjs"
   },
   "lint-staged": {
-    "src/**/*": [
-      "npm run lint --fix"
+    "src/": [
+      "npm run lint --fix --ext \"**/*.{ts,tsx}\""
     ]
   },
   "dependencies": {
-    "@stitches/react": "^1.2.8",
+    "@emotion/cache": "^11.10.5",
+    "@emotion/react": "^11.10.6",
+    "@emotion/server": "^11.10.0",
+    "@emotion/styled": "^11.10.6",
+    "@fontsource/roboto": "^4.5.8",
+    "@mui/icons-material": "^5.11.9",
+    "@mui/material": "^5.11.9",
     "next": "13.1.5",
     "next-themes": "^0.2.1",
     "react": "18.2.0",
@@ -32,6 +38,7 @@
     "@types/react-dom": "18.0.10",
     "@typescript-eslint/eslint-plugin": "^5.48.1",
     "@typescript-eslint/parser": "^5.48.1",
+    "babel-eslint": "^10.1.0",
     "eslint": "8.31.0",
     "eslint-config-next": "13.1.1",
     "eslint-config-prettier": "^8.6.0",

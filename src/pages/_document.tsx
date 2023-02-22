@@ -1,15 +1,17 @@
 import React from "react";
-import NextDocument, { Html, Head, Main, NextScript } from "next/document";
-import { getCssText } from "stitches/stitches.config";
+import Document, { Html, Head, Main, NextScript } from "next/document";
+import createEmotionServer from "@emotion/server/create-instance";
 
-export default class Document extends NextDocument {
+import createEmotionCache from "src/utils/createEmotionCache";
+
+export default class MyDocument extends Document {
   render() {
     return (
       <Html lang="en">
         <Head>
-          <style
-            id="stitches"
-            dangerouslySetInnerHTML={{ __html: getCssText() }}
+          <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
           />
         </Head>
         <body>
@@ -20,3 +22,35 @@ export default class Document extends NextDocument {
     );
   }
 }
+
+MyDocument.getInitialProps = async (ctx) => {
+  const originalRenderPage = ctx.renderPage;
+  const cache = createEmotionCache();
+  const { extractCriticalToChunks } = createEmotionServer(cache);
+
+  /* eslint-disable */
+  ctx.renderPage = () =>
+    originalRenderPage({
+      enhanceApp: (App: any) => (props) =>
+        <App emotionCache={cache} {...props} />,
+    });
+  /* eslint-enable */
+
+  const initialProps = await Document.getInitialProps(ctx);
+  const emotionStyles = extractCriticalToChunks(initialProps.html);
+  const emotionStyleTags = emotionStyles.styles.map((style) => (
+    <style
+      data-emotion={`${style.key} ${style.ids.join(" ")}`}
+      key={style.key}
+      dangerouslySetInnerHTML={{ __html: style.css }}
+    />
+  ));
+
+  return {
+    ...initialProps,
+    styles: [
+      ...React.Children.toArray(initialProps.styles),
+      ...emotionStyleTags,
+    ],
+  };
+};

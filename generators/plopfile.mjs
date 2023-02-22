@@ -14,7 +14,7 @@ export default (
     actions: [
       {
         type: "add",
-        path: "../src/components/{{pascalCase name}}/index.tsx",
+        path: "../src/common/components/{{pascalCase name}}/index.tsx",
         templateFile: "templates/Component.tsx.hbs",
       },
     ],
