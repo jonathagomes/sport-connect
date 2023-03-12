@@ -1,5 +1,3 @@
-const foo = "bar";
-
 const Header = () => (
   <div>
     <h1>óh u sacy</h1>
