@@ -4,6 +4,11 @@ const lightThemeOptions: ThemeOptions = {
   palette: {
     mode: "light",
   },
+  typography: {
+    h1: {
+      color: "primary",
+    },
+  },
 };
 
 export default lightThemeOptions;
